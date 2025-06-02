@@ -8,3 +8,5 @@ These materials are best used for an in-person workshop, but they are also inten
 
 If you have questions or suggestions, please don't hesitate to reach out! My email is david.merten-jones@claremont.edu
 
+*© 2025. This work is openly licensed via [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)*
+
