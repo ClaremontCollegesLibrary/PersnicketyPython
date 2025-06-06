@@ -67,3 +67,7 @@ Great! It looks like our dataframe is now the correct number of rows. Let's chec
 data[rowSums(is.na(data)) > 0, ]
 ```
 
+© 2025. This work is openly licensed via [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+
+
+
