@@ -1,0 +1,71 @@
+---
+title: "Goodreads"
+output: html_document
+date: "2025-01-10"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r pressure, echo=FALSE}
+#data <- read.csv(r"(C:\Users\davidm\Desktop\JupyterNotebooks\EDA\Goodreads_Kaggle\books.csv)")
+data <- read.csv("https://raw.githubusercontent.com/ClaremontCollegesLibrary/PersnicketyPython/refs/heads/main/books.csv")
+
+typeof(data)
+```
+
+We can see our "data" variable is 11131 rows, but it should only have 11127. This means that four extra rows have been added somehow during the import.
+
+Important to note: R didn't give us an error message like Python would. R will sometimes do too much automatically to help its user; this is an error that could go unnoticed. Python as a language is more of a stickler for everything fitting correctly, which can seem like more work, but its stringency can prevent erros from being introduced.
+
+```{r}
+data[rowSums(is.na(data)) > 0, ]
+```
+
+These are all publishers, not book IDs, which means they're in the wrong column. Let's check the surrounding rows.
+
+```{r}
+data[c(3349:3351),]
+```
+
+"Sam Bass Warner, Jr./Sam B. Warner" is one cell in the csv, but it contains a comma, so our read.csv function, which expected 12 columns, saw 13 and defaulted to treating the 13th column as the first column of the next row. Let's check the others.
+
+
+```{r}
+data[c(4704:4706),]
+```
+
+```{r}
+data[c(5880:5882),]
+```
+
+```{r}
+data[c(8983:8985),]
+```
+
+
+The same thing has happened with the other three rows. How do we fix this?
+
+We can reimport the data using the `readLines` function and programmatically correcting the extra commas for those specific rows using `gsub`, and *then* using `read.csv`.
+
+```{r}
+
+data <- read.csv(text = gsub('Warner, Jr','Warner Jr',
+          gsub('net, one','net one',
+          gsub('Wesley, Rawles','Wesley Rawles',
+          gsub('Brown, Son','Brown Son',
+          readLines(r"(/Users/davidm/Desktop/JupyterNotebooks/EDA/PersnicketyPython/books.csv)")
+        ))))
+)
+
+
+```
+
+Great! It looks like our dataframe is now the correct number of rows. Let's check again for missing data.
+
+```{r}
+data[rowSums(is.na(data)) > 0, ]
+```
+
